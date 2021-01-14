@@ -1,0 +1,2 @@
+const LIST_EVENTS = 'LIST_EVENTS';
+const EVENT = 'EVENT';

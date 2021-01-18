@@ -3,6 +3,7 @@ import 'package:event_app/core/error/errors.dart';
 import 'package:event_app/core/error/failures.dart';
 import 'package:event_app/data/models/event.dart';
 import 'package:event_app/data/repositories/abstract/event_repository.dart';
+import 'package:event_app/presentation/state/loading_state.dart';
 import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
 
@@ -10,6 +11,7 @@ import 'package:injectable/injectable.dart';
 class EventService extends GetxService {
   // this events will be persistane in all the app until the app closed
   var events = RxList<Event>();
+  var eventsLoadingState = Rx<LoadingState>();
 
   final EventRepository eventRepository;
 
@@ -27,7 +29,12 @@ class EventService extends GetxService {
   Future<Either<Failure, Event>> addEvent(Event event) async {
     // TODO: implement add
     var failureOrEvent = await eventRepository.add(event);
-    failureOrEvent.fold((failure) => null, (item) => (item) => events.add(item));
+    failureOrEvent.fold(
+        (failure) => eventsLoadingState.value = LoadingState.error(message: 'Event Added Failure!!', type: MessageType.danger),
+        (item) => (item) {
+              events.add(item);
+              eventsLoadingState.value = LoadingState.loaded();
+            });
 
     return failureOrEvent;
   }

@@ -11,7 +11,7 @@ import 'package:injectable/injectable.dart';
 class EventHomeController extends GetxController {
   var dates = RxList<DateTime>();
 
-  //var nearEvents=RxList<Event>();
+  var nearEvents=RxList<Event>();
   var nearEventsState = Rx<LoadingState>();
 
   var currentDataTime = DateTime.now().obs;
@@ -70,20 +70,17 @@ class EventHomeController extends GetxController {
       if (list.isEmpty) {
         print('setupNearEvent isEmpty');
 
-        //nearEvents.clear();
-        //messageError.value = MessageError(message: 'There is no near event!!');
+        nearEvents.clear();
         nearEventsState.value = LoadingState.empty();
 
-        //nearEventsState.value=LoadingState.EMPTY;
       } else {
         print('setupNearEvent assignAll');
-        nearEventsState.value = LoadingState.loaded(value: list);
-        Future.delayed(Duration(seconds: 5), () {
-          list.add(Event(id: 222,description: 'ddd',address: 'ddd',date: DateTime.now(),name: 'test',imageUrl: 'https://i.ibb.co/wQzSrx0/event7.png'));
-          nearEventsState.value=LoadingState.loaded(value: list);
-        });
-        //nearEvents.assignAll(list);
-        //nearEventsState.value=Loaded(object: list);
+
+        nearEvents.assignAll(list);
+        nearEventsState.value=LoadingState.loaded();
+        // NOTICE no loading state for added deleted updated State item
+        // Because will destory the state of the list widget (scroll position..)
+
       }
     });
   }

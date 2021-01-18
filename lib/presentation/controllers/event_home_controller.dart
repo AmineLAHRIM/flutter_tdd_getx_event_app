@@ -2,26 +2,21 @@ import 'package:event_app/core/error/errors.dart';
 import 'package:event_app/data/models/event.dart';
 import 'package:event_app/data/repositories/abstract/event_repository.dart';
 import 'package:event_app/services/event_service.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:event_app/presentation/state/loading_state.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
-enum LoadingState{
-  LOADING,
-  LOADED,
-  EMPTY,
-  ERROR,
-}
 
 @injectable
 class EventHomeController extends GetxController {
-  var dates=RxList<DateTime>();
+  var dates = RxList<DateTime>();
 
-  var nearEvents=RxList<Event>();
+  //var nearEvents=RxList<Event>();
+  var nearEventsState = Rx<LoadingState>();
 
-  var nearEventsState=Rx<LoadingState>();
+  var currentDataTime = DateTime.now().obs;
 
-  var currentDataTime=DateTime.now().obs;
-  var messageError=Rx<MessageError>();
+  //var messageError=Rx<MessageError>();
 
   EventRepository eventRepository;
 
@@ -40,7 +35,7 @@ class EventHomeController extends GetxController {
     DateTime dateTime = DateTime.now();
     int numberDays = 40;
     if (dates == null || dates.isEmpty) {
-      List<DateTime> dateValues=[];
+      List<DateTime> dateValues = [];
       for (int i = 0; i < numberDays; i++) {
         DateTime currentDateTime = dateTime.add(Duration(days: i - 2));
         dateValues.add(currentDateTime);
@@ -52,7 +47,7 @@ class EventHomeController extends GetxController {
   onSelectedDate(DateTime datetime) {
     if (datetime != null) {
       //update datetime
-      currentDataTime.value=datetime;
+      currentDataTime.value = datetime;
 
       //filter near events for the same day of the datetime
       setupNearEvent();
@@ -60,15 +55,14 @@ class EventHomeController extends GetxController {
   }
 
   setupNearEvent() async {
-    nearEventsState.value=LoadingState.LOADING;
+    nearEventsState.value = LoadingState.loading();
     print('setupNearEvent');
     var failureOrEvents = await eventRepository.findAll();
     failureOrEvents.fold((failure) {
       print('setupNearEvent failure');
 
-      messageError.value = MessageError(message: 'Failed Loading Near Events');
-      nearEventsState.value=LoadingState.ERROR;
-
+      //messageError.value = MessageError(message: 'Failed Loading Near Events');
+      nearEventsState.value = LoadingState.error(message: 'Failed Loading Near Events');
     }, (events) {
       print('setupNearEvent result');
 
@@ -76,14 +70,20 @@ class EventHomeController extends GetxController {
       if (list.isEmpty) {
         print('setupNearEvent isEmpty');
 
-        nearEvents.clear();
-        messageError.value = MessageError(message: 'There is no near event!!');
-        nearEventsState.value=LoadingState.EMPTY;
+        //nearEvents.clear();
+        //messageError.value = MessageError(message: 'There is no near event!!');
+        nearEventsState.value = LoadingState.empty();
+
+        //nearEventsState.value=LoadingState.EMPTY;
       } else {
         print('setupNearEvent assignAll');
-
-        nearEvents.assignAll(list);
-        nearEventsState.value=LoadingState.LOADED;
+        nearEventsState.value = LoadingState.loaded(value: list);
+        Future.delayed(Duration(seconds: 5), () {
+          list.add(Event(id: 222,description: 'ddd',address: 'ddd',date: DateTime.now(),name: 'test',imageUrl: 'https://i.ibb.co/wQzSrx0/event7.png'));
+          nearEventsState.value=LoadingState.loaded(value: list);
+        });
+        //nearEvents.assignAll(list);
+        //nearEventsState.value=Loaded(object: list);
       }
     });
   }

@@ -4,6 +4,7 @@ import 'package:event_app/data/models/event.dart';
 import 'package:event_app/presentation/controllers/event_home_controller.dart';
 import 'package:event_app/presentation/controllers/event_home_controller.dart';
 import 'package:event_app/presentation/widgets/list_items/loading_widget.dart';
+import 'package:event_app/presentation/state/loading_state.dart';
 import 'package:event_app/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -52,7 +53,10 @@ class EventHomePage extends StatelessWidget {
                           child: FittedBox(
                             child: Text(
                               'Event',
-                              style: Theme.of(context).textTheme.headline5,
+                              style: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .headline5,
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -88,7 +92,10 @@ class EventHomePage extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         'Discover with \nupcoming events.',
-                        style: Theme.of(context).textTheme.headline3,
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .headline3,
                       )),
                 ),
               ),
@@ -145,7 +152,10 @@ class EventHomePage extends StatelessWidget {
                                 fit: BoxFit.scaleDown,
                                 child: Text(
                                   'Near',
-                                  style: Theme.of(context).textTheme.headline3,
+                                  style: Theme
+                                      .of(context)
+                                      .textTheme
+                                      .headline3,
                                 ),
                               ),
                             ),
@@ -157,7 +167,10 @@ class EventHomePage extends StatelessWidget {
                                   fit: BoxFit.scaleDown,
                                   child: Text(
                                     'See all',
-                                    style: Theme.of(context).textTheme.bodyText2,
+                                    style: Theme
+                                        .of(context)
+                                        .textTheme
+                                        .bodyText2,
                                   ),
                                 ),
                               ),
@@ -172,12 +185,56 @@ class EventHomePage extends StatelessWidget {
                           height: double.infinity,
                           margin: EdgeInsets.only(top: 16),
                           child: Obx(() {
-                            var events = controller.nearEvents;
                             var eventsState = controller.nearEventsState;
-                            if (eventsState.value == LoadingState.LOADING) {
+                            return eventsState.value.when((value) => value, loading: () {
+                              print('loading state==loading');
                               return LoadingWidget();
-                            } else if (eventsState.value == LoadingState.LOADED) {
+                            }, empty: () {
+                              print('loading state==empty');
+                              return Center(
+                                child: Container(
+                                  child: Text(
+                                    'No Near Event in this date',
+                                    style: Theme
+                                        .of(context)
+                                        .textTheme
+                                        .bodyText2,
+                                  ),
+                                ),
+                              );
+                            }, error: (message, type) {
+                              print('loading state==error');
+                              return LoadingWidget();
+                            }, loaded: (value) {
+                              print('loading state==loaded');
+                              //LoadingState.loading() loaded= eventsState.value;
+                              //List<Event> events = loaded.value as List<Event>;
+                              //var events = controller.nearEvents;
+                              var events = value as List<Event>;
+
                               return ListView.builder(
+                                padding: EdgeInsets.only(left: 16, right: 16, top: 0),
+                                itemCount: events.length,
+                                itemBuilder: (context, index) {
+                                  Event currentEvent = events[index];
+                                  return NearEventItem(currentEvent: currentEvent);
+                                },
+                              );
+                            });
+
+                            return Container();
+                            /*if (eventsState.value == LoadingState.loading()) {
+                              //print('loading state==loading');
+
+                              return LoadingWidget();
+                            } else if (eventsState.value == LoadingState.loading()) {
+                              print('loading state==loaded');
+                              //LoadingState.loading() loaded= eventsState.value;
+                              //List<Event> events = loaded.value as List<Event>;
+                              //var events = controller.nearEvents;
+                              return Container();
+
+                              */ /*return ListView.builder(
                                 padding: EdgeInsets.only(left: 16, right: 16, top: 0),
                                 itemCount: events.length,
                                 itemBuilder: (context, index) {
@@ -185,8 +242,10 @@ class EventHomePage extends StatelessWidget {
                                   Event currentEvent = events[index];
                                   return NearEventItem(currentEvent: currentEvent);
                                 },
-                              );
-                            } else if (eventsState.value == LoadingState.ERROR) {
+                              );*/ /*
+                            } else if (eventsState.value is Error) {
+                              print('loading state==error');
+
                               return Center(
                                 child: Container(
                                   child: Text(
@@ -195,7 +254,9 @@ class EventHomePage extends StatelessWidget {
                                   ),
                                 ),
                               );
-                            } else if (eventsState.value == LoadingState.EMPTY) {
+                            } else if (eventsState.value == LoadingState.empty()) {
+                              */ /*print('loading state==empty');
+
                               return Center(
                                 child: Container(
                                   child: Text(
@@ -203,10 +264,10 @@ class EventHomePage extends StatelessWidget {
                                     style: Theme.of(context).textTheme.bodyText2,
                                   ),
                                 ),
-                              );
-                            }else{
+                              );*/ /*
+                            } else {
                               return Container();
-                            }
+                            }*/
                           }),
                         ),
                       ),
@@ -338,7 +399,9 @@ class DateItem extends StatelessWidget {
         aspectRatio: 4 / 5,
         child: Card(
           elevation: 0,
-          color: isCurrentDate ? Theme.of(context).primaryColor : Colors.white,
+          color: isCurrentDate ? Theme
+              .of(context)
+              .primaryColor : Colors.white,
           margin: EdgeInsets.zero,
           clipBehavior: Clip.antiAlias,
           shape: RoundedRectangleBorder(
@@ -346,9 +409,9 @@ class DateItem extends StatelessWidget {
             side: isCurrentDate
                 ? BorderSide.none
                 : BorderSide(
-                    width: 1.5,
-                    color: AppTheme.borderCard,
-                  ),
+              width: 1.5,
+              color: AppTheme.borderCard,
+            ),
           ),
           child: Stack(
             children: [
@@ -365,7 +428,14 @@ class DateItem extends StatelessWidget {
                           fit: BoxFit.scaleDown,
                           child: Text(
                             DateFormat.E().format(currentDateTime),
-                            style: isCurrentDate ? Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white) : Theme.of(context).textTheme.bodyText1,
+                            style: isCurrentDate ? Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(color: Colors.white) : Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText1,
                           ),
                         ),
                       ),
@@ -375,7 +445,14 @@ class DateItem extends StatelessWidget {
                           fit: BoxFit.scaleDown,
                           child: Text(
                             currentDateTime.day.toString(),
-                            style: isCurrentDate ? Theme.of(context).textTheme.headline4.copyWith(color: Colors.white) : Theme.of(context).textTheme.headline4,
+                            style: isCurrentDate ? Theme
+                                .of(context)
+                                .textTheme
+                                .headline4
+                                .copyWith(color: Colors.white) : Theme
+                                .of(context)
+                                .textTheme
+                                .headline4,
                           ),
                         ),
                       ),
@@ -472,7 +549,10 @@ class NearEventItem extends StatelessWidget {
                                       fit: BoxFit.scaleDown,
                                       child: Text(
                                         currentEvent.name,
-                                        style: Theme.of(context).textTheme.headline5,
+                                        style: Theme
+                                            .of(context)
+                                            .textTheme
+                                            .headline5,
                                       ),
                                     ),
                                   ),
@@ -491,7 +571,10 @@ class NearEventItem extends StatelessWidget {
                                   child: Text(
                                     currentEvent.address,
                                     maxLines: 2,
-                                    style: Theme.of(context).textTheme.bodyText2,
+                                    style: Theme
+                                        .of(context)
+                                        .textTheme
+                                        .bodyText2,
                                   ),
                                 ),
                               ),
@@ -510,7 +593,10 @@ class NearEventItem extends StatelessWidget {
                                     fit: BoxFit.scaleDown,
                                     child: Text(
                                       DateFormat.jm().format(currentEvent.date) + ' - ' + DateFormat.jm().format(currentEvent.date.add(Duration(hours: 2))),
-                                      style: Theme.of(context).textTheme.bodyText1,
+                                      style: Theme
+                                          .of(context)
+                                          .textTheme
+                                          .bodyText1,
                                     ),
                                   ),
                                 ),

@@ -59,7 +59,7 @@ class Event extends Equatable{
     data['id'] = this.id;
     data['name'] = this.name;
     data['address'] = this.address;
-    data['date'] = this.date;
+    data['date'] = this.date.toString();
     data['price'] = this.price;
     data['imageUrl'] = this.imageUrl;
     data['description'] = this.description;

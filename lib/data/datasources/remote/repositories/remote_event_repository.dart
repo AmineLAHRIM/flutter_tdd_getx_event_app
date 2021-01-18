@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 
+import 'package:event_app/core/error/exceptions.dart';
 import 'package:event_app/data/datasources/remote/rest_api.dart';
 import 'package:event_app/data/models/event.dart';
 import 'package:event_app/data/repositories/abstract/event_repository.dart';
@@ -34,14 +35,14 @@ class RemoteEventRepositoryImpl implements RemoteEventRepository{
   @override
   Future<Event> add(Event event) async{
     // TODO: implement add
-    var response = await http.post(RestAPI.URL + '/event/', headers: {'Content-Type': 'application/json'}, body: json.encode(event.toJson()));
+    var response = await client.post(RestAPI.URL + '/event/', headers: {'Content-Type': 'application/json'}, body: json.encode(event.toJson()));
 
     if (response.statusCode == 200) {
       dynamic data = json.decode(response.body);
       Event newEvent = Event.fromJson(data);
       return newEvent;
     } else {
-      throw Exception('No Data Found');
+      throw ServerException();
     }
   }
 
@@ -54,7 +55,7 @@ class RemoteEventRepositoryImpl implements RemoteEventRepository{
   @override
   Future<int> deleteById(int id) async{
     // TODO: implement deleteById
-    var response = await http.delete(
+    var response = await client.delete(
       RestAPI.URL + '/event/' + id.toString(),
       headers: {'Content-Type': 'application/json'},
     );
@@ -63,7 +64,7 @@ class RemoteEventRepositoryImpl implements RemoteEventRepository{
       int data = json.decode(response.body);
       return data;
     } else {
-      throw Exception('No Data Found');
+      throw ServerException();
     }
   }
 
@@ -77,21 +78,21 @@ class RemoteEventRepositoryImpl implements RemoteEventRepository{
       var items = data.map((e) => Event.fromJson(e)).toList();
       return items;
     } else {
-      throw Exception('No Data Found');
+      throw ServerException();
     }
   }
 
   @override
   Future<Event> findById(int id) async{
     // TODO: implement findById
-    var response = await http.get(RestAPI.URL + '/event/' + id.toString());
+    var response = await client.get(RestAPI.URL + '/event/' + id.toString());
 
     if (response.statusCode == 200) {
       dynamic data = json.decode(response.body);
       Event currentEvent = Event.fromJson(data);
       return currentEvent;
     } else {
-      throw Exception('No Data Found');
+      throw ServerException();
     }
   }
 
@@ -106,14 +107,14 @@ class RemoteEventRepositoryImpl implements RemoteEventRepository{
   @override
   Future<Event> update(int id, Event event) async{
     // TODO: implement update
-    var response = await http.put(RestAPI.URL + '/event/' + id.toString(), headers: {'Content-Type': 'application/json'}, body: json.encode(event.toJson()));
+    var response = await client.put(RestAPI.URL + '/event/' + id.toString(), headers: {'Content-Type': 'application/json'}, body: json.encode(event.toJson()));
 
     if (response.statusCode == 200) {
       dynamic data = json.decode(response.body);
       Event newEvent = Event.fromJson(data);
       return newEvent;
     } else {
-      throw Exception('No Data Found');
+      throw ServerException();
     }
   }
 

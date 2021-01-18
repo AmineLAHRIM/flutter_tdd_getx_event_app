@@ -1,0 +1,95 @@
+[
+  {
+    "id": 1,
+    "name": "Holi festival event",
+    "address": "Saint Cloud, NY",
+    "date": "2021-01-14 21:00:00.000Z",
+    "price": 50.0,
+    "imageUrl": "https://i.ibb.co/0syKD0V/event1.png",
+    "description": "Lorem ipsum dolor sit amet, consetetur sadips elitr, sed diam nonumy eirmod tempor invid\n ut labore et dolore magna.\nLorem ipsum dolor sit amet, consetetur \nsadipscing elitr, sed diam nonumy.",
+    "near": false,
+    "deleted": false,
+    "tickets": []
+  },
+  {
+    "id": 2,
+    "name": "Natioanl dance event",
+    "address": "Saint Cloud, NY",
+    "date": "2021-01-14 18:30:00.000Z",
+    "price": 80.0,
+    "imageUrl": "https://i.ibb.co/qgJkC6Q/event2.png",
+    "description": "Lorem ipsum dolor sit amet, consetetur sadips elitr, sed diam nonumy eirmod tempor invid\n ut labore et dolore magna.\nLorem ipsum dolor sit amet, consetetur \nsadipscing elitr, sed diam nonumy.",
+    "near": false,
+    "deleted": false,
+    "tickets": [
+      {
+        "id": 4,
+        "deleted": false
+      },
+      {
+        "id": 5,
+        "deleted": false
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "World Children's Day",
+    "address": "Diseny Land, Paris",
+    "date": "2021-01-15 18:00:00.000Z",
+    "price": 125.0,
+    "imageUrl": "https://i.ibb.co/FbsBVXV/event3.png",
+    "description": "Lorem ipsum dolor sit amet, consetetur sadips elitr, sed diam nonumy eirmod tempor invid\n ut labore et dolore magna.\nLorem ipsum dolor sit amet, consetetur \nsadipscing elitr, sed diam nonumy.",
+    "near": true,
+    "deleted": false,
+    "tickets": []
+  },
+  {
+    "id": 4,
+    "name": "Carnival dancers",
+    "address": "36 Guild Street, London, UK",
+    "date": "2021-01-14 10:00:00.000Z",
+    "price": 40.0,
+    "imageUrl": "https://i.ibb.co/G00r03b/event4.png",
+    "description": "Lorem ipsum dolor sit amet, consetetur sadips elitr, sed diam nonumy eirmod tempor invid\n ut labore et dolore magna.\nLorem ipsum dolor sit amet, consetetur \nsadipscing elitr, sed diam nonumy.",
+    "near": true,
+    "deleted": false,
+    "tickets": []
+  },
+  {
+    "id": 5,
+    "name": "Birthday Event",
+    "address": "36 Guild Street, London, UK",
+    "date": "2021-01-15 10:30:00.000Z",
+    "price": 30.0,
+    "imageUrl": "https://i.ibb.co/PgJXb78/event5.png",
+    "description": "Lorem ipsum dolor sit amet, consetetur sadips elitr, sed diam nonumy eirmod tempor invid\n ut labore et dolore magna.\nLorem ipsum dolor sit amet, consetetur \nsadipscing elitr, sed diam nonumy.",
+    "near": true,
+    "deleted": false,
+    "tickets": []
+  },
+  {
+    "id": 6,
+    "name": "Friends Music Party",
+    "address": "36 Guild Street, London, UK",
+    "date": "2021-01-16 15:30:00.000Z",
+    "price": 90.0,
+    "imageUrl": "https://i.ibb.co/MDmWF1n/event6.png",
+    "description": "Lorem ipsum dolor sit amet, consetetur sadips elitr, sed diam nonumy eirmod tempor invid\n ut labore et dolore magna.\nLorem ipsum dolor sit amet, consetetur \nsadipscing elitr, sed diam nonumy.",
+    "near": true,
+    "deleted": false,
+    "tickets": []
+  },
+  {
+    "id": 7,
+    "name": "International Youth Day",
+    "address": "Saint Cloud, NY",
+    "date": "2021-01-16 14:30:00.000Z",
+    "price": 125.0,
+    "imageUrl": "https://i.ibb.co/wQzSrx0/event7.png",
+    "description": "Lorem ipsum dolor sit amet, consetetur sadips elitr, sed diam nonumy eirmod tempor invid\n ut labore et dolore magna.\nLorem ipsum dolor sit amet, consetetur \nsadipscing elitr, sed diam nonumy.",
+    "near": true,
+    "deleted": false,
+    "tickets": []
+  }
+]

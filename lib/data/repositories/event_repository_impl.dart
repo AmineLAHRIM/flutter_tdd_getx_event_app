@@ -46,7 +46,7 @@ class EventRepositoryImpl implements EventRepository {
       try {
         var RemoteEvents = await remoteEventRepository.findAll();
         localEventRepository.cacheAll(RemoteEvents);
-        print('TAGG cacheAll');
+        print('TAGG cacheAll '+RemoteEvents.length.toString());
         return Right(RemoteEvents);
       } on ServerException {
         return Left(ServerFailure());
@@ -67,7 +67,7 @@ class EventRepositoryImpl implements EventRepository {
     if (await networkInfo.isConnected) {
       try {
         var RemoteEvent = await remoteEventRepository.findById(id);
-        //localEventRepository.cache(RemoteEvent);
+        localEventRepository.cache(RemoteEvent);
         return Right(RemoteEvent);
       } on ServerException {
         return Left(ServerFailure());

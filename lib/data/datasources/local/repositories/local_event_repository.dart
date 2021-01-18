@@ -25,23 +25,22 @@ abstract class LocalEventRepository {
   /// cache [List<Event>] which was gotten the last time
   /// the user had an internet connection.
   ///
-  Future<void> cacheAll(List<Event> events);
+  Future<bool> cacheAll(List<Event> events);
 
   /// cache [Event] which was gotten the last time
   /// the user had an internet connection.
   ///
-  Future<void> cache(Event event);
+  Future<bool> cache(Event event);
 }
 
 @Injectable(as: LocalEventRepository)
 class LocalEventRepositoryImpl implements LocalEventRepository {
-
   SharedPreferences sharedPreferences;
 
   LocalEventRepositoryImpl(this.sharedPreferences);
 
   @override
-  Future<List<Event>> findAll() async{
+  Future<List<Event>> findAll() async {
     // TODO: implement findAll
 
     final jsonString = sharedPreferences.getString(LIST_EVENTS);
@@ -55,22 +54,21 @@ class LocalEventRepositoryImpl implements LocalEventRepository {
   }
 
   @override
-  Future<void> cacheAll(List<Event> events) async{
+  Future<bool> cacheAll(List<Event> events) async {
     // TODO: implement cacheAll
-    final jsonString = events.map((e) => e.toJson()).toString();
-    print('jsonString' + jsonString);
+    var jsonData= events.map((v) => v.toJson()).toList();
 
     return sharedPreferences.setString(
       LIST_EVENTS,
-      json.encode(jsonString),
+      json.encode(jsonData),
     );
   }
 
   @override
-  Future<Event> findById(int id) async{
+  Future<Event> findById(int id) async {
     // TODO: implement findById
 
-    final jsonString = sharedPreferences.getString(EVENT+id.toString());
+    final jsonString = sharedPreferences.getString(EVENT + id.toString());
     if (jsonString != null) {
       dynamic data = json.decode(jsonString);
       return Future.value(Event.fromJson(data));
@@ -80,13 +78,11 @@ class LocalEventRepositoryImpl implements LocalEventRepository {
   }
 
   @override
-  Future<void> cache(Event event) async{
+  Future<bool> cache(Event event) async {
     // TODO: implement cache
-
     final jsonString = event.toJson();
-
     return sharedPreferences.setString(
-      EVENT+event.id.toString(),
+      EVENT + event.id.toString(),
       json.encode(jsonString),
     );
   }

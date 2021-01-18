@@ -26,6 +26,11 @@ abstract class RemoteEventRepository{
 @Injectable(as: RemoteEventRepository)
 class RemoteEventRepositoryImpl implements RemoteEventRepository{
 
+  http.Client client;
+
+
+  RemoteEventRepositoryImpl(this.client);
+
   @override
   Future<Event> add(Event event) async{
     // TODO: implement add
@@ -65,7 +70,7 @@ class RemoteEventRepositoryImpl implements RemoteEventRepository{
   @override
   Future<List<Event>> findAll() async{
     // TODO: implement findAll
-    var response = await http.get(RestAPI.URL + '/event/');
+    var response = await client.get(RestAPI.URL + '/event/');
 
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);

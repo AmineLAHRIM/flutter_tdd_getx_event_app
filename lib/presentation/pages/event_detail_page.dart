@@ -1,7 +1,7 @@
 import 'package:align_positioned/align_positioned.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:event_app/config/injection.dart';
+import 'package:event_app/config/di/injection.dart';
 import 'package:event_app/data/models/user.dart';
 import 'package:event_app/presentation/controllers/event_detail_controller.dart';
 import 'package:event_app/style.dart';

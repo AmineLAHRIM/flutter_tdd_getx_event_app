@@ -1,4 +1,6 @@
-class Ticket {
+import 'package:equatable/equatable.dart';
+
+class Ticket extends Equatable{
   int id;
   bool deleted;
 
@@ -15,4 +17,8 @@ class Ticket {
     data['deleted'] = this.deleted;
     return data;
   }
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [id,deleted];
 }

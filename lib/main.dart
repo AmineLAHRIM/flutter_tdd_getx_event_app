@@ -1,4 +1,4 @@
-import 'package:event_app/config/injection.dart';
+import 'package:event_app/config/di/injection.dart';
 import 'package:event_app/presentation/pages/event_detail_page.dart';
 import 'package:event_app/presentation/pages/event_home_page.dart';
 import 'package:event_app/presentation/pages/home_page.dart';

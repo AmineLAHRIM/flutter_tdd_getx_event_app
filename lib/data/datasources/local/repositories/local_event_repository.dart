@@ -36,12 +36,13 @@ abstract class LocalEventRepository {
 @Injectable(as: LocalEventRepository)
 class LocalEventRepositoryImpl implements LocalEventRepository {
 
-  LocalEventRepositoryImpl();
+  SharedPreferences sharedPreferences;
+
+  LocalEventRepositoryImpl(this.sharedPreferences);
 
   @override
   Future<List<Event>> findAll() async{
     // TODO: implement findAll
-    var sharedPreferences=await SharedPreferences.getInstance();
 
     final jsonString = sharedPreferences.getString(LIST_EVENTS);
     if (jsonString != null) {
@@ -56,7 +57,6 @@ class LocalEventRepositoryImpl implements LocalEventRepository {
   @override
   Future<void> cacheAll(List<Event> events) async{
     // TODO: implement cacheAll
-    var sharedPreferences=await SharedPreferences.getInstance();
     final jsonString = events.map((e) => e.toJson()).toString();
     print('jsonString' + jsonString);
 
@@ -69,9 +69,8 @@ class LocalEventRepositoryImpl implements LocalEventRepository {
   @override
   Future<Event> findById(int id) async{
     // TODO: implement findById
-    var sharedPreferences=await SharedPreferences.getInstance();
 
-    final jsonString = sharedPreferences.getString(EVENT);
+    final jsonString = sharedPreferences.getString(EVENT+id.toString());
     if (jsonString != null) {
       dynamic data = json.decode(jsonString);
       return Future.value(Event.fromJson(data));
@@ -83,12 +82,11 @@ class LocalEventRepositoryImpl implements LocalEventRepository {
   @override
   Future<void> cache(Event event) async{
     // TODO: implement cache
-    var sharedPreferences=await SharedPreferences.getInstance();
 
     final jsonString = event.toJson();
 
     return sharedPreferences.setString(
-      EVENT,
+      EVENT+event.id.toString(),
       json.encode(jsonString),
     );
   }

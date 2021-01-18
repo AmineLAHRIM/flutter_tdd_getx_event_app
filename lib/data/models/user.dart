@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:event_app/data/models/event.dart';
 
-class User {
+class User extends Equatable{
   int id;
   String name;
   String imageUrl;
@@ -42,4 +43,8 @@ class User {
     }
     return data;
   }
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [id,name,imageUrl,geoLocalisation,deleted,events];
 }

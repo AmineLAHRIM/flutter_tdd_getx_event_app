@@ -9,9 +9,7 @@ abstract class NetworkInfo {
 class NetworkInfoImpl implements NetworkInfo {
   DataConnectionChecker dataConnectionChecker;
 
-  NetworkInfoImpl() {
-    dataConnectionChecker = DataConnectionChecker();
-  }
+  NetworkInfoImpl(this.dataConnectionChecker);
 
   @override
   Future<bool> get isConnected => dataConnectionChecker.hasConnection;

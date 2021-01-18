@@ -1,7 +1,9 @@
+import 'package:dartz/dartz.dart';
+import 'package:equatable/equatable.dart';
 import 'package:event_app/data/models/ticket.dart';
 import 'package:event_app/data/models/user.dart';
 
-class Event{
+class Event extends Equatable{
   int id;
   String name;
   String address;
@@ -71,4 +73,8 @@ class Event{
     }
     return data;
   }
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [id,name,address,date,price,imageUrl,description,near,deleted,tickets,users];
 }

@@ -1,6 +1,6 @@
 import 'package:align_positioned/align_positioned.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:event_app/config/injection.dart';
+import 'package:event_app/config/di/injection.dart';
 import 'package:event_app/data/models/event.dart';
 import 'package:event_app/presentation/controllers/home_controller.dart';
 import 'package:event_app/presentation/pages/event_detail_page.dart';

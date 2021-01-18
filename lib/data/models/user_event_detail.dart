@@ -1,7 +1,8 @@
+import 'package:equatable/equatable.dart';
 import 'package:event_app/data/models/event.dart';
 import 'package:event_app/data/models/user.dart';
 
-class UserEventDetail {
+class UserEventDetail extends Equatable {
   int id;
   User user;
   Event event;
@@ -25,4 +26,8 @@ class UserEventDetail {
     }
     return data;
   }
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [id,user,event];
 }
